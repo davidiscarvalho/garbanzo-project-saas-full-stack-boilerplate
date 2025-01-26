@@ -3,7 +3,7 @@
 from sqlmodel import Field, Relationship
 from typing import Optional, List
 
-from ..db.Base import BaseModel
+from .Base import BaseModel
 # from .Token import TokenBalance
 # from .Notification import Notification
 # from .Subscription import Subscription

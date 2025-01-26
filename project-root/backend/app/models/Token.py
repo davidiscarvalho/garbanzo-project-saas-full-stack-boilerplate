@@ -4,7 +4,7 @@ from sqlmodel import Field, Relationship
 from typing import Optional
 from datetime import datetime
 
-from ..db.Base import BaseModel
+from .Base import BaseModel
 from .User import User
 
 class TokenBalance(BaseModel, table=True):

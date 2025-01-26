@@ -1,8 +1,8 @@
-# ./models.Payment.py
+# ./models/Payment.py
 
 from sqlmodel import Field, Relationship
 
-from ..db.Base import BaseModel
+from .Base import BaseModel
 from .User import User
 
 

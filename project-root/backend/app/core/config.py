@@ -3,13 +3,14 @@
 from pydantic_settings import BaseSettings
 from typing import Optional
 
-# from pathlib import Path
-# import os
-# # Resolve the .env file path
-# print("Current Working Directory:", os.getcwd())
-# env_path = Path("./.env").resolve()
-# print("Resolved .env Path:", env_path)
-# print("Does the file exist?", env_path.exists())
+if __name__ == "__main__":
+    from pathlib import Path
+    import os
+    # Resolve the .env file path
+    print("Current Working Directory:", os.getcwd())
+    env_path = Path("../.env").resolve()
+    print("Resolved .env Path:", env_path)
+    print("Does the file exist?", env_path.exists())
 
 
 class Settings(BaseSettings):
@@ -38,16 +39,17 @@ class Settings(BaseSettings):
             )
         return self.SQLITE_DB
 
-settings = Settings(_env_file="./.env", _env_file_encoding="utf-8")
+settings = Settings(_env_file="../.env", _env_file_encoding="utf-8")
 # print(settings)
 # print("DATABASE_URL: ",settings.DATABASE_URL)
 
-print("\n***********************************")
-if settings.ENV == "prod":
-    print("*** Running in PRODUCTION mode ***")
-else:
-    print("*** Running in DEVELOPMENT mode ***")
-print("***********************************\n")
+if __name__ != "__main__":
+    print("\n***********************************")
+    if settings.ENV == "prod":
+        print("*** Running in PRODUCTION mode ***")
+    else:
+        print("*** Running in DEVELOPMENT mode ***")
+    print("***********************************\n")
 
 
 
