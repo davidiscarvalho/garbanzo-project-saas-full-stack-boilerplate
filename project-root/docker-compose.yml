@@ -1,0 +1,43 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: fastapi-backend
+    ports:
+      - "${BACKEND_PORT}:8000"  # Using the BACKEND_PORT variable
+    env_file:
+      - .env  # Reference to the .env file
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - postgres
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: react-frontend
+    ports:
+      - "${FRONTEND_PORT}:3000"  # Using the FRONTEND_PORT variable
+    env_file:
+      - .env  # Reference to the .env file
+    volumes:
+      - ./frontend:/usr/src/app
+    stdin_open: true
+    tty: true
+
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    environment:
+      POSTGRES_USER: "${POSTGRES_USER}"  # Using the POSTGRES_USER variable
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"  # Using the POSTGRES_PASSWORD variable
+      POSTGRES_DB: "${POSTGRES_DB}"  # Using the POSTGRES_DB variable
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:
