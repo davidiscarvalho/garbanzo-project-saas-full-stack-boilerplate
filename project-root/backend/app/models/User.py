@@ -4,7 +4,7 @@ from sqlmodel import Field, Relationship
 from typing import Optional, List
 
 from .Base import BaseModel
-# from .Token import TokenBalance
+# from .Credit import CreditBalance
 # from .Notification import Notification
 # from .Subscription import Subscription
 # from .Payment import PaymentHistory
@@ -23,7 +23,7 @@ class User(BaseModel, table=True):
     # Relationships
     roles: List["Role"] = Relationship(back_populates="users", link_table="user_roles")
     # subscriptions: List["Subscription"] = Relationship(back_populates="user")
-    # token_balance: Optional["TokenBalance"] = Relationship(back_populates="user")
+    # credit_balance: Optional["CreditBalance"] = Relationship(back_populates="user")
     # notifications: List["Notification"] = Relationship(back_populates="user")
     # payment_history: List["PaymentHistory"] = Relationship(back_populates="user")
 
