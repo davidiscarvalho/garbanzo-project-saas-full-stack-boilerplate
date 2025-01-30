@@ -3,15 +3,15 @@
 from datetime import datetime, timedelta
 from typing import Optional
 from jose import JWTError, jwt
+
 from passlib.context import CryptContext
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from sqlmodel import Session
 
-
-from ..main import get_session
+from db.session import get_session
 from core.config import settings
-from ..models.User import User
+from models.User import User
 
 # JWT Configuration
 SECRET_KEY = settings.SECRET_KEY_JWT

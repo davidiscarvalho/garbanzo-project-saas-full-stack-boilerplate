@@ -4,7 +4,6 @@ from sqlmodel import Field, Relationship
 from typing import Optional, List
 
 from .Base import BaseModel
-from .UserAccount import UserPayment, UserSubscription, UserTier, UserCreditBalance
 
 class User(BaseModel, table=True):
     """
@@ -16,13 +15,6 @@ class User(BaseModel, table=True):
     full_name: Optional[str] = None
     is_active: bool = Field(default=True)
     is_superuser: bool = Field(default=False)
-
-    # Relationships
-    roles: List["Role"] = Relationship(back_populates="users", link_table="user_roles")
-    payments: List["UserPayment"] = Relationship(back_populates="user")
-    tiers: List["UserTier"] = Relationship(back_populates="user")
-    subscriptions: List["UserSubscription"] = Relationship(back_populates="user")
-    balance: List["UserCreditBalance"] = Relationship(back_populates="user")
 
     # Verify password
     def verify_password(self, password: str) -> bool:
@@ -36,10 +28,6 @@ class Role(BaseModel, table=True):
     """
     name: str = Field(unique=True, index=True)  # Role name (e.g., "admin", "user")
     description: Optional[str] = None
-
-    # Relationships
-    users: List["User"] = Relationship(back_populates="roles", link_table="user_roles")
-    permissions: List["Permission"] = Relationship(back_populates="roles", link_table="role_permissions")
 
 class UserRole(BaseModel, table=True):
     """
@@ -58,11 +46,9 @@ class Permission(BaseModel, table=True):
     Permission model (for role-based access control)
     Inherits from BaseModel to include common fields.
     """
-    name: str = Field(unique=True, index=True)  # Permission name (e.g., "read_users")
+    name: str = Field(unique=True, index=True)
     description: Optional[str] = None
 
-    # Relationships
-    roles: List["Role"] = Relationship(back_populates="permissions", link_table="role_permissions")
 
 class RolePermission(BaseModel, table=True):
     """

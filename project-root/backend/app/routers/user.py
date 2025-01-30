@@ -5,6 +5,7 @@ from sqlmodel import Session, select
 from typing import List
 
 from db.session import get_session
+from core.auth import get_password_hash
 from models.User import User
 from schemas.user import UserCreate, UserRead, UserUpdate, UserRoleCreate, UserRoleRead
 
@@ -12,11 +13,18 @@ from core.auth import get_current_user, check_permission
 
 router = APIRouter(prefix="/users", tags=["Users"])
 
-# Create User
 @router.post("/", response_model=UserRead)
-def create_user(*, session: Session = Depends(get_session), user: UserCreate, current_user: User = Depends(get_current_user)):
-    check_permission(current_user, "create")
-    db_user = User.from_orm(user)
+def create_user(*, session: Session = Depends(get_session), user: UserCreate):
+    # Hash the password before saving
+    hashed_password = get_password_hash(user.password)
+
+    db_user = User(
+        email=user.email,
+        hashed_password=hashed_password,
+        full_name=user.full_name,
+        is_active=user.is_active,
+        is_superuser=user.is_superuser,
+    )
     session.add(db_user)
     session.commit()
     session.refresh(db_user)

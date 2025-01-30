@@ -5,7 +5,6 @@ from typing import List, Optional
 from datetime import datetime
 
 from .Base import BaseModel
-from .UserAccount import UserTier, UserSubscription
 
 class Tier(BaseModel, table=True):
     name: str  
@@ -14,9 +13,7 @@ class Tier(BaseModel, table=True):
 
     # Relationships
     prices: List["TierPrice"] = Relationship(back_populates="tier")
-    user_tiers: List["UserTier"] = Relationship(back_populates="tier")
-    subscriptions: List["UserSubscription"] = Relationship(back_populates="tier")
-
+   
 class TierPrice(BaseModel, table=True):
     tier_id: int = Field(foreign_key="tier.id") 
     name: str  
