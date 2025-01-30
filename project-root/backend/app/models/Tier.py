@@ -5,8 +5,7 @@ from typing import List, Optional
 from datetime import datetime
 
 from .Base import BaseModel
-from .UserTier import UserTier
-from .UserSubscription import UserSubscription
+from .UserAccount import UserTier, UserSubscription
 
 class Tier(BaseModel, table=True):
     name: str  

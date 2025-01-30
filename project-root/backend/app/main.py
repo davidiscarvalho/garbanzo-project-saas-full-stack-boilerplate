@@ -8,13 +8,18 @@ from slowapi.errors import RateLimitExceeded
 
 # Import routers
 from routers.limiter import limiter
+from routers import core, userAccount, user
 
 
 # Initialize app
 app = FastAPI()
 
 # Routers
-#app.include_router(user_router)
+app.include_router(core.router)
+app.include_router(userAccount.router)
+app.include_router(user.router)
+
+# Add rate limiter to app
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 

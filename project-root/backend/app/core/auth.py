@@ -67,13 +67,35 @@ async def get_current_user(
     email: str = payload.get("sub")
     if email is None:
         raise credentials_exception
-    user = session.exec(select(User).where(User.email == email)).first()
-    if user is None:
-        raise credentials_exception
-    return user
+    # user = session.exec(select(User).where(User.email == email)).first()
+    # if user is None:
+    #     raise credentials_exception
+    # return user
 
 # Get current active user
 async def get_current_active_user(current_user: User = Depends(get_current_user)) -> User:
     if not current_user.is_active:
         raise HTTPException(status_code=400, detail="Inactive user")
     return current_user
+
+# Helper function to check if the user has a specific permission
+def has_permission(user: User, permission_name: str) -> bool:
+    """
+    Check if the user has the required permission.
+    Returns True if the user has the permission, otherwise False.
+    """
+    for role in user.roles:
+        for permission in role.permissions:
+            if permission.name == permission_name:
+                return True
+    return False
+
+# Check if the user has a specific permission
+def check_permission(user: User, permission_name: str):
+    """
+    Check if the user has the required permission.
+    Raises HTTPException with 403 status if the user doesn't have the permission.
+    """
+    if not has_permission(user, permission_name):
+        raise HTTPException(status_code=403, detail="Permission denied")
+

@@ -1,4 +1,4 @@
-# db/Base.py
+# models/Base.py
 
 from sqlmodel import SQLModel, Field
 from datetime import datetime
