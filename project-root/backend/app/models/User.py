@@ -4,10 +4,7 @@ from sqlmodel import Field, Relationship
 from typing import Optional, List
 
 from .Base import BaseModel
-# from .Credit import CreditBalance
-# from .Notification import Notification
-# from .Subscription import Subscription
-# from .Payment import PaymentHistory
+from .UserAccount import UserPayment, UserSubscription, UserTier, UserCreditBalance
 
 class User(BaseModel, table=True):
     """
@@ -22,10 +19,10 @@ class User(BaseModel, table=True):
 
     # Relationships
     roles: List["Role"] = Relationship(back_populates="users", link_table="user_roles")
-    # subscriptions: List["Subscription"] = Relationship(back_populates="user")
-    # credit_balance: Optional["CreditBalance"] = Relationship(back_populates="user")
-    # notifications: List["Notification"] = Relationship(back_populates="user")
-    # payment_history: List["PaymentHistory"] = Relationship(back_populates="user")
+    payments: List["UserPayment"] = Relationship(back_populates="user")
+    tiers: List["UserTier"] = Relationship(back_populates="user")
+    subscriptions: List["UserSubscription"] = Relationship(back_populates="user")
+    balance: List["UserCreditBalance"] = Relationship(back_populates="user")
 
     # Verify password
     def verify_password(self, password: str) -> bool:
